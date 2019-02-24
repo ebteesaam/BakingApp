@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="no_recipe_favorites">No recipe favorites!</string>
+    <string name="guess">Can you guess the composer?</string>
+    <string name="notification_text">Press play to hear the piece!</string>
+
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="restart">Restart</string>
+    <string name="ingredient_amount">%1$s %2$s</string>
+
+</resources>
