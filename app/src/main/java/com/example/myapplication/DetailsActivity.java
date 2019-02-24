@@ -1,9 +1,7 @@
 package com.example.myapplication;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,8 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.DB.AppExecutor;
 import com.example.myapplication.DB.DBI.AppDatabaseI;
-import com.example.myapplication.DB.DBI.ContractIngredient;
 import com.example.myapplication.DB.FetchDataDetails;
 import com.example.myapplication.DB.FetchDataDetailsTwoPane;
 import com.example.myapplication.Model.BakingRecipe;
@@ -186,23 +184,23 @@ public class DetailsActivity extends AppCompatActivity {
                     final Ingredient ingredient1=new Ingredient(randomNumber, quantity, measure, id, ingredient);
                     Log.e("Ingredient", quantity + measure + ingredient);
 //                    fav.setColorFilter(getApplicationContext().getResources().getColor(R.color.red));
-//                    AppExecutor executor = new AppExecutor();
-//                    executor.execute(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            appDatabaseI.IngredientDao().insert(ingredient1);
-//                            //  Toast.makeText(context, "Added to your widget", Toast.LENGTH_SHORT).show();
-//                            //     Log.e("dd",ingredient1.getIngredient());
-//
-//                        }
-//                    });
+                    AppExecutor executor = new AppExecutor();
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            appDatabaseI.IngredientDao().insert(ingredient1);
+                            //  Toast.makeText(context, "Added to your widget", Toast.LENGTH_SHORT).show();
+                            //     Log.e("dd",ingredient1.getIngredient());
 
-                    ContentValues values=new ContentValues();
-                    values.put(ContractIngredient.Recipe._ID_Recipe,id);
-                    values.put(ContractIngredient.Recipe.INGREDIENT,ingredient);
-                    values.put(ContractIngredient.Recipe.QUANTITY,quantity);
-                    values.put(ContractIngredient.Recipe.MEASURE,measure);
-                    Uri newUri = getContentResolver().insert(ContractIngredient.Recipe.CONTENT_URI, values);
+                        }
+                    });
+
+//                    ContentValues values=new ContentValues();
+//                    values.put(ContractIngredient.Recipe._ID_Recipe,id);
+//                    values.put(ContractIngredient.Recipe.INGREDIENT,ingredient);
+//                    values.put(ContractIngredient.Recipe.QUANTITY,quantity);
+//                    values.put(ContractIngredient.Recipe.MEASURE,measure);
+//                    Uri newUri = getContentResolver().insert(ContractIngredient.Recipe.CONTENT_URI, values);
 
 
 
