@@ -52,8 +52,8 @@ public class FetchDataWidget extends AsyncTask<Void, Void, List<BakingRecipe>> {
             }
 
             JSONArray json = new JSONArray(builder.toString());
-            for (int i = 0; i < json.length(); i++) {
-                JSONObject c = json.getJSONObject(i);
+            //for (int i = 0; i < json.length(); i++) {
+                JSONObject c = json.getJSONObject(0);
                 String name = c.optString("name");
                 String id = c.optString("id");
                 String servings = c.optString("servings");
@@ -85,8 +85,8 @@ public class FetchDataWidget extends AsyncTask<Void, Void, List<BakingRecipe>> {
                 BRList.add(new BakingRecipe(name,id,servings));
 
 
-            }
-            //adapter = new AdapterIngredientWidget(FetchDataWidget.class,R.layout.list_ingredeint,ingredientsList);
+            //}
+            //adapter = new AdapterIngredientWidget(this,0,ingredientsList);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

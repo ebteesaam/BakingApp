@@ -39,6 +39,10 @@ public class AdapterIngredientWidget extends ArrayAdapter<Ingredient> {
 
     public ConstraintLayout constraintLayout;
 
+//    public AdapterIngredientWidget(Class<FetchDataWidget> fetchDataWidgetClass, int list_ingredeint, List<Ingredient> ingredientsList) {
+//        super();
+//    }
+
 //    public AdapterIngredientWidget(Context context, int list_ingredeint, LiveData<List<Ingredient>> movies) {
 //        super(context, list_ingredeint, (List<Ingredient>) movies);
 //        ingredientList = (List<Ingredient>) movies;

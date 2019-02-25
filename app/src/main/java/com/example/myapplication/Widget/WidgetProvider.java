@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
-import com.example.myapplication.Adapter.AdapterIngredientWidget;
+import com.example.myapplication.Adapter.AdapterIngredient;
 import com.example.myapplication.Adapter.WidjetCurserAdapter;
 import com.example.myapplication.DB.DBI.AppDatabaseI;
 import com.example.myapplication.MainActivity;
@@ -52,7 +52,7 @@ public class WidgetProvider extends AppWidgetProvider {
     TextView empty;
     private RecyclerView.LayoutManager mLayoutManager;
     AppDatabaseI mDb;
-    AdapterIngredientWidget adapterRecipe;
+    AdapterIngredient adapterRecipe;
     WidjetCurserAdapter widjetCurserAdapter;
 
     Context context1;
@@ -75,9 +75,8 @@ public class WidgetProvider extends AppWidgetProvider {
 //        FetchDataWidget fetchDataWidget=new FetchDataWidget();
 //        fetchDataWidget.execute();
 
-//        adapter = new AdapterIngredientWidget(context1,0,MainActivity.ingredientList);
+//      adapter = new AdapterIngredientWidget(context1,0,MainActivity.ingredientList);
 //Log.e("KK",MainActivity.ingredientList.toString());
-//        listView.setAdapter((ListAdapter) adapter);
 
 //            mDb = AppDatabaseI.getDatabase(context);
 //            MainViewModelI viewModel;
@@ -180,8 +179,9 @@ public class WidgetProvider extends AppWidgetProvider {
                     }
 
 
-
-                adapter = new AdapterIngredientWidget(context1,0,ingredientsList);
+Log.e("List",ingredientsList.get(0).getIngredient());
+                adapterRecipe = new AdapterIngredient(ingredientsList,stepsList);
+//                listView.setAdapter((ListAdapter) adapterRecipe);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
