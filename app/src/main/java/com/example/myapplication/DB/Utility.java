@@ -43,8 +43,7 @@ public class Utility {
 
     /**
      * Method to heck if recipe is in database
-     *
-     * @param context Context
+     *  @param context Context
      * @param recipeId ID of recipe
      */
     public static boolean recipeExist(Context context, int recipeId){

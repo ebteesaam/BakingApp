@@ -99,7 +99,13 @@ public class DetailsActivity extends AppCompatActivity {
 //        if(Utility.recipeExist(this,recipeId)){
 //            fav.setColorFilter(getApplication().getResources().getColor(R.color.red));
 //        }
-
+//        final ArrayList<Ingredient> iList = savedInstanceState
+//                .getParcelableArrayList(getString(R.string.ingredientsList_key));
+//        if( Utility.recipeExist(this,Integer.parseInt(intentExtra))){
+//           // fav.setChecked(true);
+//        } else {
+//         //   fav.setChecked(false);
+//        }
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

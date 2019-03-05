@@ -115,7 +115,7 @@ public class StepActivity extends AppCompatActivity {
     fragmentManager = getSupportFragmentManager();
     StepsFragment fragment = new StepsFragment(idStep, idRecipe);
     fragmentManager.beginTransaction()
-            .add(R.id.fragment_recipe, fragment)
+            .replace(R.id.fragment_recipe, fragment)
             .commit();
 
 

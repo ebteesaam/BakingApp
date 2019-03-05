@@ -16,6 +16,7 @@ import com.example.myapplication.DB.Utility;
 import com.example.myapplication.DetailsActivity;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.WidgetR.RemoteFetchService;
 
 
 /**
@@ -60,7 +61,7 @@ public class FavoriteRecipeWidgetProvider extends AppWidgetProvider {
         views.setEmptyView(R.id.widget_list, R.id.widget_emptyView);
 
        //  Instruct the widget manager to update the widget
-      // appWidgetManager.updateAppWidget(appWidgetId, views);
+      appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class FavoriteRecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        context.startService(new Intent(context, WidgetRemoteViewsService.class));
+        context.startService(new Intent(context, RemoteFetchService.class));
 
     }
 

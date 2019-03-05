@@ -28,6 +28,10 @@ public class Ingredient implements Parcelable {
         this.ingredient = ingredient;
     }
 
+    public Ingredient() {
+
+    }
+
     public int getIdIngredient() {
         return idIngredient;
     }

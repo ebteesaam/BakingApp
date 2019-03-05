@@ -4,6 +4,7 @@
     <string name="no_recipe_favorites">No recipe favorites!</string>
     <string name="guess">Can you guess the composer?</string>
     <string name="notification_text">Press play to hear the piece!</string>
+    <string name="ingredientsList_key">ingredientsList</string>
 
     <string name="play">Play</string>
     <string name="pause">Pause</string>

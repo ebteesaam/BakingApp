@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,7 +146,7 @@ ImageView backB;
         video=fetchDataStepsDetails.videoURL;
         thumbnail=fetchDataStepsDetails.thumbnailURL;
 //        videoboo=video.isEmpty();
-//        Log.e("video", String.valueOf(videoboo));
+        Log.e("videoL", String.valueOf(video));
 //        if(videoURL==""||videoURL==null){
 //            mPlayerView.setVisibility(View.GONE);
 //        }else {
