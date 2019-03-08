@@ -1,9 +1,15 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.DB.AppExecutor;
 import com.example.myapplication.DB.DBI.AppDatabaseI;
+import com.example.myapplication.DB.DBI.MainViewModelI;
 import com.example.myapplication.DB.FetchDataDetails;
 import com.example.myapplication.DB.FetchDataDetailsTwoPane;
 import com.example.myapplication.Model.BakingRecipe;
@@ -45,7 +52,9 @@ public class DetailsActivity extends AppCompatActivity {
     public static TextView title;
     ImageButton back;
     private boolean mTwoPane;
+    public static String idRecipeWidget;
     public static final String ACTION_DATA_UPDATED = "com.example.myapplication.ACTION_DATA_UPDATE";
+    public static final String Id_Recipe_Shared_p="My Id Recipe";
 
     public static FragmentManager fragmentManager;
     AppDatabaseI appDatabaseI;
@@ -119,7 +128,11 @@ public class DetailsActivity extends AppCompatActivity {
 
                 FetchDataFav fetchDataFav=new FetchDataFav(DetailsActivity.this,Integer.parseInt(intentExtra));
                 fetchDataFav.execute();
-                Toast.makeText(getApplication(), "Added to your widget", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = getSharedPreferences(Id_Recipe_Shared_p,0).edit();
+                editor.putString("id", idRecipeWidget);
+               // editor.putInt("idName", 12);
+                editor.apply();
+                Toast.makeText(getApplication(), "Added to your widget"+idRecipeWidget, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -138,6 +151,7 @@ public class DetailsActivity extends AppCompatActivity {
             int id;
 
             Context context;
+            AppDatabaseI mDatabase;
 
             public FetchDataFav(Context context,int data) {
                 this.context=context;
@@ -147,8 +161,10 @@ public class DetailsActivity extends AppCompatActivity {
                 this.id = data;
             }
              AppDatabaseI appDatabaseI;
+            @SuppressLint("WrongThread")
             @Override
         protected Void doInBackground(Void... voids) {
+                mDatabase = AppDatabaseI.getDatabase(DetailsActivity.this);
             URL url = null;
             appDatabaseI=AppDatabaseI.getDatabase(context);
 
@@ -200,7 +216,15 @@ public class DetailsActivity extends AppCompatActivity {
 
                         }
                     });
+                    MainViewModelI viewModel;
+                    viewModel = ViewModelProviders.of(DetailsActivity.this).get(MainViewModelI.class);
+                    viewModel.getTasks().observe( DetailsActivity.this , new Observer<List<Ingredient>>() {
+                        @Override
+                        public void onChanged(@Nullable List<Ingredient> movies2) {
 
+                            LiveData<List<Ingredient>> movies=mDatabase.IngredientDao().getAll();
+                            idRecipeWidget=movies2.get(0).getIdRecipe();
+                            Log.e("Widgetid",movies2.get(0).getIdRecipe());}});
 //                    ContentValues values=new ContentValues();
 //                    values.put(ContractIngredient.Recipe._ID_Recipe,id);
 //                    values.put(ContractIngredient.Recipe.INGREDIENT,ingredient);

@@ -227,7 +227,10 @@ public class WidgetProvider extends AppWidgetProvider {
 
                     JSONArray json = new JSONArray(stream);
                     //for (int i = 0; i < json.length(); i++) {
-                    JSONObject c = json.getJSONObject(2);
+//                    Log.e("Nmae", DetailsActivity.idRecipeWidget);
+
+                    JSONObject c = json.getJSONObject(0
+                    );
                     name = c.optString("name");
                     String id = c.optString("id");
                     String servings = c.optString("servings");
@@ -240,7 +243,7 @@ public class WidgetProvider extends AppWidgetProvider {
                         double quantity = b.optDouble("quantity");
                         String measure = b.optString("measure");
                         String ingredient = b.optString("ingredient");
-                     //   ingredientsList.add(new Ingredient(randomNumber,quantity,measure,id,ingredient));
+                   //   ingredientsList.add(new Ingredient(randomNumber,quantity,measure,id,ingredient));
 
                     }
 
