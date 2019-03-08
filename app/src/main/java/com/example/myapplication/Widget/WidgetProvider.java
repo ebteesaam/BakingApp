@@ -246,7 +246,7 @@ public class WidgetProvider extends AppWidgetProvider {
                    //   ingredientsList.add(new Ingredient(randomNumber,quantity,measure,id,ingredient));
 
                     }
-
+//
                     Log.e("Nmae", name);
                     remoteViews.setTextViewText(R.id.appwidget_text, name);
 //                    adapterRecipe=new AdapterIngredientWidget(context1,R.layout.recipe_widget,ingredientsList);
