@@ -1,15 +1,13 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,9 +18,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.DB.AppExecutor;
 import com.example.myapplication.DB.DBI.AppDatabaseI;
-import com.example.myapplication.DB.DBI.MainViewModelI;
+import com.example.myapplication.DB.DBI.ContractIngredient;
 import com.example.myapplication.DB.FetchDataDetails;
 import com.example.myapplication.DB.FetchDataDetailsTwoPane;
 import com.example.myapplication.Model.BakingRecipe;
@@ -52,7 +49,7 @@ public class DetailsActivity extends AppCompatActivity {
     public static TextView title;
     ImageButton back;
     private boolean mTwoPane;
-    public static String idRecipeWidget;
+
     public static final String ACTION_DATA_UPDATED = "com.example.myapplication.ACTION_DATA_UPDATE";
     public static final String Id_Recipe_Shared_p="My Id Recipe";
 
@@ -129,14 +126,16 @@ public class DetailsActivity extends AppCompatActivity {
                 FetchDataFav fetchDataFav=new FetchDataFav(DetailsActivity.this,Integer.parseInt(intentExtra));
                 fetchDataFav.execute();
                 SharedPreferences.Editor editor = getSharedPreferences(Id_Recipe_Shared_p,0).edit();
-                editor.putString("id", idRecipeWidget);
+                editor.putInt("id", fetchDataFav.id);
                // editor.putInt("idName", 12);
                 editor.apply();
-                Toast.makeText(getApplication(), "Added to your widget"+idRecipeWidget, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "Added to your widget", Toast.LENGTH_SHORT).show();
 
             }
         });
-
+        SharedPreferences prefs = getSharedPreferences(Id_Recipe_Shared_p, 0);
+        int restoredText = prefs.getInt("id",0);
+        Log.e("idRSh", String.valueOf(restoredText));
 
     }
 
@@ -148,6 +147,9 @@ public class DetailsActivity extends AppCompatActivity {
             public RecyclerView.Adapter adapter;
             public RecyclerView.Adapter adapterSteps;
             String name;
+            String idRecipeWidget;
+            String idRecipeWidget2;
+
             int id;
 
             Context context;
@@ -206,31 +208,37 @@ public class DetailsActivity extends AppCompatActivity {
                     final Ingredient ingredient1=new Ingredient(randomNumber, quantity, measure, id, ingredient);
                     Log.e("Ingredient", quantity + measure + ingredient);
 //                    fav.setColorFilter(getApplicationContext().getResources().getColor(R.color.red));
-                    AppExecutor executor = new AppExecutor();
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            appDatabaseI.IngredientDao().insert(ingredient1);
-                            //  Toast.makeText(context, "Added to your widget", Toast.LENGTH_SHORT).show();
-                            //     Log.e("dd",ingredient1.getIngredient());
+//                    AppExecutor executor = new AppExecutor();
+//                    executor.execute(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            appDatabaseI.IngredientDao().insert(ingredient1);
+//                            //  Toast.makeText(context, "Added to your widget", Toast.LENGTH_SHORT).show();
+//                            //     Log.e("dd",ingredient1.getIngredient());
+//
+//                        }
+//                    });
 
-                        }
-                    });
-                    MainViewModelI viewModel;
-                    viewModel = ViewModelProviders.of(DetailsActivity.this).get(MainViewModelI.class);
-                    viewModel.getTasks().observe( DetailsActivity.this , new Observer<List<Ingredient>>() {
-                        @Override
-                        public void onChanged(@Nullable List<Ingredient> movies2) {
 
-                            LiveData<List<Ingredient>> movies=mDatabase.IngredientDao().getAll();
-                            idRecipeWidget=movies2.get(0).getIdRecipe();
-                            Log.e("Widgetid",movies2.get(0).getIdRecipe());}});
-//                    ContentValues values=new ContentValues();
-//                    values.put(ContractIngredient.Recipe._ID_Recipe,id);
-//                    values.put(ContractIngredient.Recipe.INGREDIENT,ingredient);
-//                    values.put(ContractIngredient.Recipe.QUANTITY,quantity);
-//                    values.put(ContractIngredient.Recipe.MEASURE,measure);
-//                    Uri newUri = getContentResolver().insert(ContractIngredient.Recipe.CONTENT_URI, values);
+//                    MainViewModelI viewModel;
+//                    viewModel = ViewModelProviders.of(DetailsActivity.this).get(MainViewModelI.class);
+//                    viewModel.getTasks().observe( DetailsActivity.this , new Observer<List<Ingredient>>() {
+//                        @Override
+//                        public void onChanged(@Nullable List<Ingredient> movies2) {
+//
+//                            LiveData<List<Ingredient>> movies=mDatabase.IngredientDao().getAll();
+//                         //   idRecipeWidget=movies2.get(0).getIdRecipe();
+//                            Log.e("Widgetid",movies2.get(0).getIdRecipe());}});
+//                    idRecipeWidget2=idRecipeWidget;
+//                    Log.e("Widgetid",id);
+
+
+                    ContentValues values=new ContentValues();
+                    values.put(ContractIngredient.Recipe._ID_Recipe,id);
+                    values.put(ContractIngredient.Recipe.INGREDIENT,ingredient);
+                    values.put(ContractIngredient.Recipe.QUANTITY,quantity);
+                    values.put(ContractIngredient.Recipe.MEASURE,measure);
+                    Uri newUri = getContentResolver().insert(ContractIngredient.Recipe.CONTENT_URI, values);
 
 
 

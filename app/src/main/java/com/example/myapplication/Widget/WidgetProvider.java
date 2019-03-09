@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ import java.util.Random;
 
 import butterknife.BindView;
 
+import static com.example.myapplication.DetailsActivity.Id_Recipe_Shared_p;
+
 public class WidgetProvider extends AppWidgetProvider {
 
     public Adapter adapter;
@@ -51,7 +54,7 @@ public class WidgetProvider extends AppWidgetProvider {
     private RecyclerView.LayoutManager mLayoutManager;
     AppDatabaseI mDb;
     WidjetCurserAdapter widjetCurserAdapter;
-
+    SharedPreferences prefs;
     Context context1;
 
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -71,7 +74,9 @@ public class WidgetProvider extends AppWidgetProvider {
 //        listView.setAdapter(widjetCurserAdapter);\
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
         ComponentName watchWidget = new ComponentName(context, WidgetProvider.class);
-
+        prefs = context.getSharedPreferences(Id_Recipe_Shared_p, 0);
+//        int restoredText = prefs.getInt("id",0);
+//Log.e("idRSh", String.valueOf(restoredText));
         ProcessJSONData processJSONData= (ProcessJSONData) new ProcessJSONData(appWidgetManager,watchWidget,views).execute("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
 
         String recipeName = processJSONData.name;
@@ -211,7 +216,8 @@ public class WidgetProvider extends AppWidgetProvider {
 
         protected void onPostExecute(String stream) {
             super.onPostExecute(stream);
-
+            int restoredText = prefs.getInt("id",0);
+            Log.e("idRSh", String.valueOf(restoredText));
             if (stream != null) {
                 try {
 //                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
@@ -229,7 +235,7 @@ public class WidgetProvider extends AppWidgetProvider {
                     //for (int i = 0; i < json.length(); i++) {
 //                    Log.e("Nmae", DetailsActivity.idRecipeWidget);
 
-                    JSONObject c = json.getJSONObject(0
+                    JSONObject c = json.getJSONObject(restoredText-1
                     );
                     name = c.optString("name");
                     String id = c.optString("id");
