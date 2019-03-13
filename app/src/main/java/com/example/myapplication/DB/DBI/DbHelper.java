@@ -26,7 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ContractIngredient.Recipe._ID + " INTEGER PRIMARY KEY, "
                 + ContractIngredient.Recipe._ID_Recipe + " INTEGER, "
                 + ContractIngredient.Recipe.INGREDIENT + " TEXT, "
-                + ContractIngredient.Recipe.QUANTITY + " DOUBLE, "
+                + ContractIngredient.Recipe.QUANTITY + " TEXT, "
                 + ContractIngredient.Recipe.MEASURE + " TEXT );";
 
 

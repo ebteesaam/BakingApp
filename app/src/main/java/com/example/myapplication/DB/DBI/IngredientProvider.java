@@ -12,8 +12,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import static android.provider.BaseColumns._ID;
+import static com.example.myapplication.DB.DBI.ContractIngredient.PATH;
 import static com.example.myapplication.DB.DBR.ContractRecipe.CONTENT_AUTHORITY;
-import static com.example.myapplication.DB.DBR.ContractRecipe.PATH;
 
 /**
  * Created by ebtesam on 19/12/2018 AD.
@@ -29,10 +29,14 @@ public class IngredientProvider extends ContentProvider {
     // Static initializer. This is run the first time anything is called from this class.
     static {
 
+//        sUriMatcher.addURI(CONTENT_AUTHORITY, "cte", INGREDIENT);
+//        sUriMatcher.addURI(CONTENT_AUTHORITY, "cte" + "/*", NAME);
         sUriMatcher.addURI(CONTENT_AUTHORITY, PATH, INGREDIENT);
         sUriMatcher.addURI(CONTENT_AUTHORITY, PATH + "/#", RECIPE_ID);
 
     }
+
+
 
     private DbHelper mDbHelper;
 
@@ -110,11 +114,12 @@ public class IngredientProvider extends ContentProvider {
         // Check that the name is not null
         String idRecipe = values.getAsString(ContractIngredient.Recipe._ID_Recipe );
         String measure = values.getAsString(ContractIngredient.Recipe.MEASURE );
-        double quantity = values.getAsDouble(ContractIngredient.Recipe.QUANTITY );
+        String quantity = values.getAsString(ContractIngredient.Recipe.QUANTITY );
 
         String ingredient = values.getAsString(ContractIngredient.Recipe.INGREDIENT );
         /// Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        Log.e("Recipe", idRecipe+measure+quantity+ingredient + uri);
 
         // Insert the new pet with the given values
         long id = database.insert(ContractIngredient.Recipe.TABLE_NAME, null, values);

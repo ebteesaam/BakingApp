@@ -236,7 +236,7 @@ public class DetailsActivity extends AppCompatActivity {
                     ContentValues values=new ContentValues();
                     values.put(ContractIngredient.Recipe._ID_Recipe,id);
                     values.put(ContractIngredient.Recipe.INGREDIENT,ingredient);
-                    values.put(ContractIngredient.Recipe.QUANTITY,quantity);
+                    values.put(ContractIngredient.Recipe.QUANTITY,String.valueOf(quantity));
                     values.put(ContractIngredient.Recipe.MEASURE,measure);
                     Uri newUri = getContentResolver().insert(ContractIngredient.Recipe.CONTENT_URI, values);
 

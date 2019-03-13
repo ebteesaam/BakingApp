@@ -6,6 +6,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.example.myapplication.Fragment.StepsFragmentTowPane;
 import com.example.myapplication.Model.BakingRecipe;
@@ -121,6 +122,10 @@ Log.e("Fetch",description);
     @Override
     protected void onPostExecute(List<BakingRecipe> bakingRecipes) {
         super.onPostExecute(bakingRecipes);
+        if(videoURL==null||videoURL.isEmpty()||videoURL==""){
+
+            StepsFragmentTowPane.mPlayerView.setVisibility(View.GONE);
+        }
        StepsFragmentTowPane.describtion.setText(description);
 
 

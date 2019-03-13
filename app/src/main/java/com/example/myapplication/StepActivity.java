@@ -95,7 +95,7 @@ public class StepActivity extends AppCompatActivity {
             if (getIntent().hasExtra("Describtion")) {
 
                 shortdes = getIntent().getExtras().getString("shortDescribtion");
-                Log.e("ddd", shortdes);
+//                Log.e("ddd", video);
 
                 des = getIntent().getExtras().getString("Describtion");
                 video = getIntent().getExtras().getString("video");

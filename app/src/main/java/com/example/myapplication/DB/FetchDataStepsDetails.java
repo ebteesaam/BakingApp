@@ -96,6 +96,7 @@ public class FetchDataStepsDetails extends AsyncTask<Void, Void, List<BakingReci
                     thumbnailURL=b.optString("thumbnailURL");
                     idstep=b.optString("id");
                     Log.e("thum",thumbnailURL+idstep);
+
                   //  stepsList.add(new Steps(shortDescription,description,videoURL,thumbnailURL,idstep,id));
 
                // }
@@ -127,12 +128,18 @@ public class FetchDataStepsDetails extends AsyncTask<Void, Void, List<BakingReci
 
         StepActivity.shortDes.setText(shortDescription);
         //StepsFragment.describtion.setText(description);
+        if(videoURL==null||videoURL.isEmpty()||videoURL==""){
+
+            StepsFragment.mPlayerView.setVisibility(View.GONE);
+        }
         if (id == 0) {
             StepActivity.backB.setVisibility(View.INVISIBLE);
         }else {
             StepActivity.backB
                               .setVisibility(View.VISIBLE);
     }
+
+
 
     }
 

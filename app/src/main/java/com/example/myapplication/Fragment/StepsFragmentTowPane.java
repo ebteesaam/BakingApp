@@ -77,7 +77,7 @@ ImageView backB;
 //    @BindView(R.id.directions_toolbar_forward_button)
 //    ImageView forwardB;
     String video;
-    ImageView thumbnailIV;
+    SimpleExoPlayerView thumbnailIV;
 
     @SuppressLint("ValidFragment")
     public StepsFragmentTowPane(String shortdes, String des, int id, String idRecipe, String video) {
@@ -298,7 +298,7 @@ ImageView backB;
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (getContext(), 0, new Intent(getActivity(), StepActivity.class), 0);
 
-        builder.setContentTitle(getString(R.string.guess))
+        builder.setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_text))
                 .setContentIntent(contentPendingIntent)
                 .setSmallIcon(R.drawable.ic_music_note)

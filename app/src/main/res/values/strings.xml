@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Baking Recipe</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="no_recipe_favorites">No recipe favorites!</string>
     <string name="guess">Can you guess the composer?</string>

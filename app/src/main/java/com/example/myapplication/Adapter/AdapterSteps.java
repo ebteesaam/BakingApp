@@ -50,8 +50,10 @@ public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.RecipeIngred
         recipeViewHolder.num.setText(steps.getId());
         recipeViewHolder.steps.setText(steps.getShortDescription());
         final  boolean video=steps.getVideoURL().isEmpty();
+        Log.e("Step", String.valueOf(video));
         if(video != true) {
             videourl = String.valueOf(steps.getVideoURL());
+
 
         }else {
            videourl =null;
@@ -70,7 +72,7 @@ public class AdapterSteps extends RecyclerView.Adapter<AdapterSteps.RecipeIngred
 
                 intent.putExtra("idRecipe",steps.getIdRecipe());
                 intent.putExtra("size",sizeStep);
-
+//                Log.e("videoD", videourl);
                 intent.putExtra("video",videourl);
                 intent.putExtra("id",steps.getId());
 

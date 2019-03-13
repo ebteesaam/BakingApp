@@ -67,6 +67,8 @@ public class StepsFragment  extends Fragment implements ExoPlayer.EventListener{
     public static TextView describtion;
     private NotificationManager mNotificationManager;
     public static SimpleExoPlayer mExoPlayer;
+    public static SimpleExoPlayer mExoPlayerthumb;
+
     public static SimpleExoPlayerView mPlayerView;
     private static MediaSessionCompat mMediaSession;
     private static PlaybackStateCompat.Builder mStateBuilder;
@@ -74,13 +76,15 @@ public class StepsFragment  extends Fragment implements ExoPlayer.EventListener{
     @BindView(R.id.directions_toolbar_back_button)
 ImageView backB;
     String thumbnail;
+    @BindView(R.id.thumbbnail)
+    ImageView thumbbnail;
     private boolean isFullScreen = false;
 
     //
 //    @BindView(R.id.directions_toolbar_forward_button)
 //    ImageView forwardB;
     String video;
-    ImageView thumbnailIV;
+    public static SimpleExoPlayerView thumbnailIV;
     FetchDataStepsDetails fetchDataStepsDetails;
     @SuppressLint("ValidFragment")
     public StepsFragment(String shortdes, String des, int id, String idRecipe, String video) {
@@ -109,7 +113,7 @@ ImageView backB;
 
         ButterKnife.bind(getActivity());
 
-        initializeMediaSession();
+      initializeMediaSession();
 
 //        @SuppressLint("ResourceType")
 //        StepsFragment stepsFragment= (StepsFragment) getSupportFragmentManager().findFragmentById(R.layout.activity_step_fragment);
@@ -143,9 +147,12 @@ ImageView backB;
 
         describtion=view.findViewById(R.id.description);
       //  describtion.setText(des);
+       // shortdes=fetchDataStepsDetails.shortdes;
         video=fetchDataStepsDetails.videoURL;
         thumbnail=fetchDataStepsDetails.thumbnailURL;
 //        videoboo=video.isEmpty();
+        Log.e("thumbnail", String.valueOf(thumbnail));
+
         Log.e("videoL", String.valueOf(video));
 //        if(videoURL==""||videoURL==null){
 //            mPlayerView.setVisibility(View.GONE);
@@ -172,6 +179,15 @@ ImageView backB;
 
 
             }
+//        if(thumbnail==""||thumbnail==null){
+//           // mPlayerView.setVisibility(View.GONE);
+//        }else {
+//            thumbnailIV.setVisibility(View.VISIBLE);
+//            initializePlayerThumbnail(Uri.parse(thumbnail));
+//            initializeMediaSession();
+//
+//
+//        }
             if(view != null) {
                 return view;
             }
@@ -190,6 +206,23 @@ ImageView backB;
         outState.putInt(STEP_NUMBER,id);
         outState.putString(RECIPE_NUMBER, idRecipe);
 
+    }
+    public  void initializePlayerThumbnail(Uri mediaUri) {
+        if (thumbnailIV == null) {
+            // Create an instance of the ExoPlayer.
+            TrackSelector trackSelector = new DefaultTrackSelector();
+            LoadControl loadControl = new DefaultLoadControl();
+            mExoPlayerthumb = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
+            thumbnailIV.setPlayer(mExoPlayerthumb);
+            mExoPlayerthumb.addListener( this);
+
+            // Prepare the MediaSource.
+            String userAgent = Util.getUserAgent(getContext(), "Baking Recipe");
+            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+            mExoPlayerthumb.prepare(mediaSource);
+            mExoPlayerthumb.setPlayWhenReady(true);
+        }
     }
 
     public  void initializePlayer(Uri mediaUri) {
@@ -222,6 +255,12 @@ ImageView backB;
             releasePlayer();
             mMediaSession.setActive(false);}
 
+//        if(thumbnail==""||thumbnail==null){
+//
+//        }else {
+//            releasePlayer();
+//            mMediaSession.setActive(false);}
+
     }
 
     /**
@@ -235,6 +274,14 @@ ImageView backB;
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;}
+
+
+//        if(thumbnail==""||thumbnail==null){
+//
+//        }else {
+//            mExoPlayerthumb.stop();
+//            mExoPlayerthumb.release();
+//            mExoPlayerthumb = null;}
 
     }
 
@@ -338,7 +385,7 @@ ImageView backB;
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (getContext(), 0, new Intent(getActivity(), StepActivity.class), 0);
 
-        builder.setContentTitle(getString(R.string.guess))
+        builder.setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_text))
                 .setContentIntent(contentPendingIntent)
                 .setSmallIcon(R.drawable.ic_music_note)
