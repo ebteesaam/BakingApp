@@ -57,6 +57,25 @@ public class WidgetProvider extends AppWidgetProvider {
     SharedPreferences prefs;
     Context context1;
 
+
+    private static RemoteViews getListRemoteView(Context context){
+        RemoteViews remoteViews=new RemoteViews(context.getPackageName(),R.layout.recipe_widget);
+
+        Intent intent2=new Intent(context,WidgetRemote.class);
+        remoteViews.setRemoteAdapter(R.id.widget_list,intent2);
+
+
+
+        Intent intent=new Intent(context,MainActivity.class);
+        PendingIntent intent1=PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setPendingIntentTemplate(R.id.widget_list,intent1);
+
+        remoteViews.setEmptyView(R.id.list,R.id.widget_emptyView);
+
+        return remoteViews;
+    }
+
+
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                          int appWidgetId) {
         context1 = context;
@@ -74,13 +93,14 @@ public class WidgetProvider extends AppWidgetProvider {
 //        listView.setAdapter(widjetCurserAdapter);\
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
         ComponentName watchWidget = new ComponentName(context, WidgetProvider.class);
+        views=getListRemoteView(context);
         prefs = context.getSharedPreferences(Id_Recipe_Shared_p, 0);
-//        int restoredText = prefs.getInt("id",0);
-//Log.e("idRSh", String.valueOf(restoredText));
-        ProcessJSONData processJSONData= (ProcessJSONData) new ProcessJSONData(appWidgetManager,watchWidget,views).execute("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
+        int restoredText = prefs.getInt("id",0);
+Log.e("idRShW", String.valueOf(restoredText));
+        ProcessJSONData processJSONData= (ProcessJSONData) new ProcessJSONData(appWidgetManager,watchWidget,views,restoredText).execute("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
 
         String recipeName = processJSONData.name;
-//
+        Log.e("recipeName", String.valueOf(recipeName));
        // if (recipeName.equals("")) {
            // views.setTextViewText(R.id.appwidget_text, "Baking App");
        // } else {
@@ -120,6 +140,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.widget_list);
     }
 
     @Override
@@ -188,6 +209,14 @@ public class WidgetProvider extends AppWidgetProvider {
         private ComponentName watchWidget;
         private RemoteViews remoteViews;
         List<Ingredient> ingredientsList;
+        int id;
+
+        public ProcessJSONData(AppWidgetManager appWidgetManager, ComponentName watchWidget, RemoteViews views, int restoredText) {
+            this.appWidgetManager = appWidgetManager;
+            this.watchWidget = watchWidget;
+            this.remoteViews = views;
+            id=restoredText;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -217,7 +246,7 @@ public class WidgetProvider extends AppWidgetProvider {
         protected void onPostExecute(String stream) {
             super.onPostExecute(stream);
             int restoredText = prefs.getInt("id",0);
-            Log.e("idRSh", String.valueOf(restoredText));
+            Log.e("idRShinside", String.valueOf(restoredText));
             if (stream != null) {
                 try {
 //                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));

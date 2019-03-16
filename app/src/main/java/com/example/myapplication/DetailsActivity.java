@@ -128,6 +128,8 @@ public class DetailsActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = getSharedPreferences(Id_Recipe_Shared_p,0).edit();
                 editor.putInt("id", fetchDataFav.id);
                // editor.putInt("idName", 12);
+                Log.e("idRShF", String.valueOf(fetchDataFav.id));
+
                 editor.apply();
                 Toast.makeText(getApplication(), "Added to your widget", Toast.LENGTH_SHORT).show();
 
